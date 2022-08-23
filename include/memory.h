@@ -1,22 +1,34 @@
 #pragma once
 
+#include <exception>
+
+
 namespace static_containers {
 
 class Memory {
-  Memory(unsigned char* address, size_t size) :
-    address(address),
-    size(size)
+  Memory(size_t size) :
+    address(nullptr),
+    size(size),
+    is_used(false)
   {
+    address = static_cast<unsigned char*>(malloc(size));
+    if (address == nullptr)
+      throw std::bad_alloc();
+  }
+
+ public:
+  ~Memory() {
+    if (address != nullptr)
+      free(address);
   }
 
   unsigned char* address;
   size_t size;
+  bool is_used;
 
- public:
-  static Memory create_memory(size_t size)
+  static Memory make_memory(size_t size)
   {
-    auto memory = new unsigned char[size];
-    return Memory(memory, size);
+    return Memory(size);
   }
 };
 }

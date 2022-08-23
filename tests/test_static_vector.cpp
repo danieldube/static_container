@@ -12,5 +12,5 @@ TEST_CASE("StaticVector", "[constructor]") {
 
 
 TEST_CASE("Memory", "[constructor]") {
-  Memory::create_memory(1024);
+  Memory::make_memory(1024);
 }
