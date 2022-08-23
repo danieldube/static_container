@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdlib>
 #include <exception>
 
 namespace static_containers {
