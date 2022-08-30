@@ -21,4 +21,9 @@ TEST_CASE("Memory allocate") {
 
   memory.allocate();
   CHECK(memory.is_used == false);
+
+  {
+    auto token = memory.allocate();
+    CHECK_THROWS_AS(memory.allocate(), std::logic_error);
+  }
 }

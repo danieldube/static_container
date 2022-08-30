@@ -18,7 +18,7 @@ class Memory {
 public:
   class Token {
   public:
-    Token(std::function<void()> &&deallocation_callback)
+    Token(std::function<void()> &&deallocation_callback) noexcept
         : deallocate(deallocation_callback) {}
     ~Token() { deallocate(); }
 
@@ -32,6 +32,8 @@ public:
   }
 
   Token allocate() {
+    if (is_used)
+      throw std::logic_error("The memory is already allocated.");
     is_used = true;
     return Token([this]() { this->deallocate(); });
   }
@@ -48,6 +50,10 @@ public:
   bool is_used;
 
 private:
-  void deallocate() { is_used = false; }
+  void deallocate() {
+    if (not is_used)
+      throw std::logic_error("The memory was not allocated");
+    is_used = false;
+  }
 };
 } // namespace static_containers
