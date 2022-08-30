@@ -2,6 +2,7 @@
 
 #include <cstdlib>
 #include <exception>
+#include <functional>
 
 namespace static_containers {
 
@@ -17,11 +18,12 @@ class Memory {
 public:
   class Token {
   public:
-    Token(Memory &memory) : memory(memory) {}
-    ~Token() { memory.deallocate(); }
+    Token(std::function<void()> &&deallocation_callback)
+        : deallocate(deallocation_callback) {}
+    ~Token() { deallocate(); }
 
   private:
-    Memory &memory;
+    std::function<void()> deallocate;
   };
 
   ~Memory() {
@@ -31,12 +33,10 @@ public:
 
   Token allocate() {
     is_used = true;
-    return Token(*this);
+    return Token([this]() { this->deallocate(); });
   }
 
-  void deallocate() { is_used = false; }
-
-  bool isUsed() const { return is_used; }
+  static Memory make_memory(size_t size) { return Memory(size); }
 
   Memory(const Memory &memory) = delete;
   Memory(Memory &&memory) = default;
@@ -47,6 +47,7 @@ public:
   size_t size;
   bool is_used;
 
-  static Memory make_memory(size_t size) { return Memory(size); }
+private:
+  void deallocate() { is_used = false; }
 };
 } // namespace static_containers

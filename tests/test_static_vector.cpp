@@ -12,10 +12,13 @@ TEST_CASE("Memory", "[constructor]") { Memory::make_memory(1024); }
 TEST_CASE("Memory allocate") {
   auto memory = Memory::make_memory(1024);
 
-  CHECK(memory.isUsed() == false);
+  CHECK(memory.is_used == false);
   {
     auto token = memory.allocate();
-    CHECK(memory.isUsed() == true);
+    CHECK(memory.is_used == true);
   }
-  CHECK(memory.isUsed() == false);
+  CHECK(memory.is_used == false);
+
+  memory.allocate();
+  CHECK(memory.is_used == false);
 }
