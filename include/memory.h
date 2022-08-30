@@ -19,7 +19,7 @@ public:
   class Token {
   public:
     Token(std::function<void()> &&deallocation_callback) noexcept
-        : deallocate(deallocation_callback) {}
+        : deallocate(std::move(deallocation_callback)) {}
     ~Token() { deallocate(); }
 
   private:
