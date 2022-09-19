@@ -31,7 +31,7 @@ TEST_CASE("correct destruction", "[StaticVector]") {
 
 TEST_CASE("make memory", "[Memory]") { Memory::make_memory(1024); }
 
-TEST_CASE("allocatae memory", "[Memory]") {
+TEST_CASE("allocate memory", "[Memory]") {
   auto memory = Memory::make_memory(1024);
 
   CHECK(memory.is_used == false);
