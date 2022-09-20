@@ -34,13 +34,18 @@ public:
 
   value_type &operator[](size_t index) { return get_element(index); }
 
+  const value_type &operator[](size_t index) const {
+    const value_type &result = get_element(index);
+    return result;
+  }
+
 private:
   const Memory &memory;
   Memory::Token token;
 
   size_t size{0};
 
-  value_type *get_pointer(size_t index) {
+  value_type *get_pointer(size_t index) const {
     size_t location = index * sizeof(Content);
     if (location >= memory.size)
       throw std::range_error("Index is out of capacity.");
@@ -48,7 +53,7 @@ private:
     return pointer;
   }
 
-  value_type &get_element(size_t index) {
+  value_type &get_element(size_t index) const {
     if (index >= size)
       throw std::range_error("Index is out of size.");
     auto pointer = get_pointer(index);
