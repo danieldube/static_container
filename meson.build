@@ -1,4 +1,4 @@
-project('static_conrainer', 'cpp', default_options : ['cpp_std=c++14'])
+project('static_container', 'cpp', default_options : ['cpp_std=c++14'])
 
 static_vector = library('static_vector', 'include/static_vector.h')
 
