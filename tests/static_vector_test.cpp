@@ -21,15 +21,29 @@ TEST_CASE("constructor", "[StaticVector]") {
 
 TEST_CASE("correct destruction", "[StaticVector]") {
   auto memory = Memory::make_memory(1024);
-  StaticVector<InstanceCounter> vector(memory);
   {
+    StaticVector<InstanceCounter> vector(memory);
     vector.push_back(InstanceCounter());
     CHECK(InstanceCounter::instances() == 1);
   }
   CHECK(InstanceCounter::instances() == 0);
 }
 
+TEST_CASE("forward argument", "[StaticVector]") {
+  auto memory = Memory::make_memory(1024);
+  StaticVector<std::string> vector(memory);
+  vector.push_back(std::string());
+  const auto string = std::string();
+  vector.push_back(string);
+  vector.push_back("test");
+}
+
 TEST_CASE("make memory", "[Memory]") { Memory::make_memory(1024); }
+
+TEST_CASE("delete double", "[Memory]") {
+  auto *pointer = new double(1);
+  delete pointer;
+}
 
 TEST_CASE("allocate memory", "[Memory]") {
   auto memory = Memory::make_memory(1024);
