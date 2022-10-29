@@ -6,10 +6,8 @@
 
 namespace static_containers {
 
-class Memory;
-
 class Memory {
-  Memory(size_t size) : address(nullptr), size(size), is_used(false) {
+  explicit Memory(size_t size) : address(nullptr), size(size), is_used(false) {
     address = static_cast<unsigned char *>(malloc(size));
     if (address == nullptr)
       throw std::bad_alloc();
