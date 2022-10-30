@@ -7,8 +7,7 @@ template <typename Content> class StaticVector {
 public:
   using value_type = Content;
 
-  explicit StaticVector(Memory &memory)
-      : memory(memory), token(memory.allocate()){};
+  explicit StaticVector(Memory &memory) : token(memory.allocate()){};
 
   ~StaticVector() {
     while (size_ > 0) {
@@ -19,12 +18,15 @@ public:
   }
 
   StaticVector(StaticVector &&static_vector) noexcept
-      : memory(static_vector.memory), token(std::move(static_vector.token)),
-        size_(static_vector.size_) {
+      : token(std::move(static_vector.token)), size_(static_vector.size_) {
     static_vector.size_ = 0;
   };
 
-  size_t capacity() const { return memory.size / sizeof(value_type); }
+  StaticVector(const StaticVector &static_vector) = delete;
+  StaticVector &operator=(const StaticVector &static_vector) = delete;
+  StaticVector &operator=(StaticVector &&static_vector) = delete;
+
+  size_t capacity() const { return token.size / sizeof(value_type); }
 
   void push_back(value_type &&arguments) {
     auto *address = get_pointer(size_);
@@ -48,16 +50,15 @@ public:
   size_t size() const { return size_; }
 
 private:
-  const Memory &memory;
   Memory::Token token;
 
   size_t size_{0};
 
   value_type *get_pointer(size_t index) const {
     size_t location = index * sizeof(Content);
-    if (location >= memory.size)
+    if (location >= token.size)
       throw std::range_error("Index is out of capacity.");
-    auto pointer = (value_type *)(memory.address + location);
+    auto pointer = (value_type *)(token.address + location);
     return pointer;
   }
 

@@ -16,8 +16,10 @@ class Memory {
 public:
   class Token {
   public:
-    explicit Token(std::function<void()> &&deallocation_callback) noexcept
-        : deallocate(std::move(deallocation_callback)) {}
+    explicit Token(unsigned char *address, size_t size,
+                   std::function<void()> &&deallocation_callback) noexcept
+        : address(address), size(size),
+          deallocate(std::move(deallocation_callback)) {}
     ~Token() {
       if (deallocate)
         deallocate();
@@ -27,6 +29,9 @@ public:
     Token(Token &&token) = default;
     Token &operator=(const Token &token) = delete;
     Token &operator=(Token &&token) = delete;
+
+    unsigned char *address;
+    size_t size;
 
   private:
     std::function<void()> deallocate;
@@ -41,7 +46,7 @@ public:
     if (is_used)
       throw std::logic_error("The memory is already allocated.");
     is_used = true;
-    return Token([this]() { this->deallocate(); });
+    return Token(address, size, [this]() { this->deallocate(); });
   }
 
   static Memory make_memory(size_t size) { return Memory(size); }
