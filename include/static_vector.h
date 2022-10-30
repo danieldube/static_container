@@ -1,11 +1,13 @@
 #pragma once
 
+#include "include/forward_iterator.h"
 #include "include/memory.h"
 
 namespace static_containers {
 template <typename Content> class StaticVector {
 public:
   using value_type = Content;
+  using Iterator = ForwardIterator<StaticVector<value_type>>;
 
   explicit StaticVector(Memory &memory) : token(memory.allocate()){};
 
@@ -48,6 +50,9 @@ public:
   }
 
   size_t size() const { return size_; }
+
+  Iterator begin() { return Iterator::make_iterator(*this); }
+  Iterator end() { return Iterator::make_end_iterator(*this); }
 
 private:
   Memory::Token token;

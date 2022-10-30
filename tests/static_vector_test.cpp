@@ -47,3 +47,20 @@ TEST_CASE("move assignment", "[StaticVector]") {
   CHECK(destination.size() == 1);
   CHECK(destination[0] == 42);
 }
+
+TEST_CASE("range based for", "[StaticVector]") {
+  auto memory = Memory::make_memory(1024);
+  StaticVector<uint64_t> vector(memory);
+  vector.push_back(1);
+  vector.push_back(2);
+  vector.push_back(3);
+
+  std::vector<uint64_t> results;
+
+  for (auto &element : vector) {
+    results.push_back(element);
+  }
+  CHECK(results[0] == 1);
+  CHECK(results[1] == 2);
+  CHECK(results[2] == 3);
+}
