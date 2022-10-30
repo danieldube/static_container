@@ -13,9 +13,5 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: setup
-      run: meson setup build
-    - name: build
-      run: cd build && meson compile
-    - name: tests
-      run: cd build && ./tests
+    - name: Meson Build
+      uses: BSFishy/meson-build@v1.0.3
