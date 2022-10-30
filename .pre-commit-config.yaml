@@ -14,4 +14,4 @@ repos:
     rev: v1.3.5
     hooks:
       - id: clang-tidy
-        args: [-p=build/build/compile_commands.json]
+        args: [-p=build/compile_commands.json]

@@ -41,8 +41,9 @@ TEST_CASE("forward argument", "[StaticVector]") {
 TEST_CASE("move assignment", "[StaticVector]") {
   auto memory = Memory::make_memory(1024);
   StaticVector<uint64_t> source(memory);
-  source.push_back(1);
+  source.push_back(42);
   StaticVector<uint64_t> destination(std::move(source));
   CHECK(destination.capacity() == 128);
   CHECK(destination.size() == 1);
+  CHECK(destination[0] == 42);
 }
