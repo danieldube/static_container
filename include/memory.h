@@ -18,7 +18,15 @@ public:
   public:
     explicit Token(std::function<void()> &&deallocation_callback) noexcept
         : deallocate(std::move(deallocation_callback)) {}
-    ~Token() { deallocate(); }
+    ~Token() {
+      if (deallocate)
+        deallocate();
+    }
+
+    Token(const Token &token) = delete;
+    Token(Token &&token) = default;
+    Token &operator=(const Token &token) = delete;
+    Token &operator=(Token &&token) = delete;
 
   private:
     std::function<void()> deallocate;
