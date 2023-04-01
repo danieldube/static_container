@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
+#include "include/static_vector.h"
 #include "catch2/catch.hpp"
 #include "include/memory.h"
-#include "include/static_vector.h"
 #include "instance_counter.h"
 
 using namespace static_containers;
@@ -57,7 +57,7 @@ TEST_CASE("range based for", "[StaticVector]") {
 
   std::vector<uint64_t> results;
 
-  for (auto &element : vector) {
+  for (auto& element : vector) {
     results.push_back(element);
   }
   CHECK(results[0] == 1);

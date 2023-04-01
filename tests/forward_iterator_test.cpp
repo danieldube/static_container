@@ -1,6 +1,6 @@
-#include "catch2/catch.hpp"
 #include "include/forward_iterator.h"
 #include <vector>
+#include "catch2/catch.hpp"
 
 using namespace static_containers;
 
