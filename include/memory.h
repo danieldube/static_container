@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include <exception>
 #include <functional>
+#include <stdexcept>
 
 namespace static_containers {
 
