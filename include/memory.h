@@ -53,7 +53,7 @@ class Memory {
       free(address);
   }
 
-  Token allocate() {
+  [[nodiscard]] Token allocate() {
     if (is_used)
       throw std::logic_error("The memory is already allocated.");
     is_used = true;

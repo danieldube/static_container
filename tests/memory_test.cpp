@@ -17,7 +17,7 @@ TEST_CASE("allocate memory", "[Memory]") {
   }
   CHECK(memory.is_used == false);
 
-  memory.allocate();
+  { auto token = memory.allocate(); }
   CHECK(memory.is_used == false);
 
   {
