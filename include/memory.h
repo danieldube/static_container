@@ -29,9 +29,17 @@ class Memory {
     }
 
     Token(const Token& token) = delete;
-    Token(Token&& token) = default;
     Token& operator=(const Token& token) = delete;
     Token& operator=(Token&& token) = delete;
+
+    Token(Token&& token) noexcept
+        : address{token.address},
+          size{token.size},
+          deallocate{std::move(token.deallocate)} {
+      token.address = nullptr;
+      token.size = 0;
+      token.deallocate = std::function<void()>{};
+    };
 
     unsigned char* address;
     size_t size;

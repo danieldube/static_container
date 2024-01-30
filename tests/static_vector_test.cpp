@@ -46,6 +46,9 @@ TEST_CASE("move assignment", "[StaticVector]") {
   CHECK(destination.capacity() == 128);
   CHECK(destination.size() == 1);
   CHECK(destination[0] == 42);
+
+  CHECK(source.capacity() == 0);
+  CHECK(source.size() == 0);
 }
 
 TEST_CASE("range based for", "[StaticVector]") {
