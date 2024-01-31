@@ -1,9 +1,11 @@
-#include "catch2/catch.hpp"
 #include "include/memory.h"
+#include "catch2/catch.hpp"
 
 using namespace static_containers;
 
-TEST_CASE("make memory", "[Memory]") { Memory::make_memory(1024); }
+TEST_CASE("make memory", "[Memory]") {
+  Memory::make_memory(1024);
+}
 
 TEST_CASE("allocate memory", "[Memory]") {
   auto memory = Memory::make_memory(1024);
@@ -15,7 +17,7 @@ TEST_CASE("allocate memory", "[Memory]") {
   }
   CHECK(memory.is_used == false);
 
-  memory.allocate();
+  { auto token = memory.allocate(); }
   CHECK(memory.is_used == false);
 
   {

@@ -1,5 +1,5 @@
-#include "catch2/catch.hpp"
 #include <instance_counter.h>
+#include "catch2/catch.hpp"
 
 TEST_CASE("test counter", "[InstanceCounter]") {
   InstanceCounter::reset();

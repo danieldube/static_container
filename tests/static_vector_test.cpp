@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
+#include "include/static_vector.h"
 #include "catch2/catch.hpp"
 #include "include/memory.h"
-#include "include/static_vector.h"
 #include "instance_counter.h"
 
 using namespace static_containers;
@@ -46,4 +46,24 @@ TEST_CASE("move assignment", "[StaticVector]") {
   CHECK(destination.capacity() == 128);
   CHECK(destination.size() == 1);
   CHECK(destination[0] == 42);
+
+  CHECK(source.capacity() == 0);
+  CHECK(source.size() == 0);
+}
+
+TEST_CASE("range based for", "[StaticVector]") {
+  auto memory = Memory::make_memory(1024);
+  StaticVector<uint64_t> vector(memory);
+  vector.push_back(1);
+  vector.push_back(2);
+  vector.push_back(3);
+
+  std::vector<uint64_t> results;
+
+  for (auto& element : vector) {
+    results.push_back(element);
+  }
+  CHECK(results[0] == 1);
+  CHECK(results[1] == 2);
+  CHECK(results[2] == 3);
 }
